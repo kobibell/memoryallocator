@@ -14,6 +14,7 @@ typedef struct Block {
 } Block;
 
 // Function prototypes
+void init_memory(int size);
 int allocate_mem(int process_id, int num_units);
 int deallocate_mem(int process_id);
 int fragment_count();

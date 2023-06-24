@@ -2,16 +2,17 @@
 #include <stdlib.h>
 #include "memory.h"
 
-#include "memory.h"
-
-typedef struct Block {
-    int process_id;
-    int num_units;
-    struct Block* next;
-} Block;
-
-
 Block* memory = NULL;
+int total_nodes_traversed = 0;
+int total_allocations = 0;
+int total_denied_allocations = 0;
+
+void init_memory(int size) {
+    memory = (Block*) malloc(sizeof(Block));
+    memory->process_id = 0; // Set process_id to 0 for the initial block
+    memory->size = size;
+    memory->next = NULL;
+}
 
 int allocate_mem(int process_id, int num_units) {
     Block* current = memory;
@@ -19,11 +20,11 @@ int allocate_mem(int process_id, int num_units) {
     int nodes_traversed = 0;
 
     while (current != NULL) {
-        if (current->num_units >= num_units) {
+        if (current->size >= num_units) {
             // Allocate memory
             Block* new_block = (Block*)malloc(sizeof(Block));
             new_block->process_id = process_id;
-            new_block->num_units = num_units;
+            new_block->size = num_units;
             new_block->next = current;
 
             if (prev == NULL) {
@@ -32,8 +33,13 @@ int allocate_mem(int process_id, int num_units) {
                 prev->next = new_block;
             }
 
-            current->num_units -= num_units;
+            current->size -= num_units;
             nodes_traversed++;
+
+            // Update statistics variables
+            total_nodes_traversed += nodes_traversed;
+            total_allocations++;
+
             return nodes_traversed;
         }
 
@@ -42,6 +48,9 @@ int allocate_mem(int process_id, int num_units) {
         nodes_traversed++;
     }
 
+    // Update statistics variables for denied allocation
+    total_denied_allocations++;
+    
     return -1;
 }
 
@@ -69,13 +78,12 @@ int deallocate_mem(int process_id) {
     return -1;
 }
 
-
 int fragment_count() {
     Block* current = memory;
     int count = 0;
 
     while (current != NULL) {
-        if (current->num_units <= 2) {
+        if (current->size <= 2) {
             count++;
         }
 
@@ -86,9 +94,13 @@ int fragment_count() {
 }
 
 void print_statistics() {
-    // TODO: Implement the print_statistics function
-    // Calculate and print the statistics for each technique
-    // Average number of external fragments
-    // Average nodes traversed in allocation
-    // Percentage of denied allocation requests
+    printf("End of First Fit Allocation\n");
+    printf("Average External Fragments Each Request: %.6f\n", (double)fragment_count() / 10000);
+    printf("Average Nodes Transversed Each Allocation: %.6f\n", (double)total_nodes_traversed / total_allocations);
+    printf("Percentage Allocation Requests Denied Overall: %.6f%%\n", (double)total_denied_allocations / total_allocations * 100);
+    printf("End of Best Fit Allocation\n");
+    // Print the values of the variables
+
+
+    // Repeat the above printf statements for Best Fit Allocation
 }
