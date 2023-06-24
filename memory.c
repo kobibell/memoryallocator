@@ -4,29 +4,85 @@
 
 #include "memory.h"
 
+typedef struct Block {
+    int process_id;
+    int num_units;
+    struct Block* next;
+} Block;
+
+
 Block* memory = NULL;
 
 int allocate_mem(int process_id, int num_units) {
-    // TODO: Implement the allocate_mem function
-    // Traverse the linked list of free blocks
-    // Find the first block that can accommodate the requested memory
-    // Allocate the memory and adjust the linked list
-    // Return the number of nodes traversed if successful, otherwise return -1
+    Block* current = memory;
+    Block* prev = NULL;
+    int nodes_traversed = 0;
+
+    while (current != NULL) {
+        if (current->num_units >= num_units) {
+            // Allocate memory
+            Block* new_block = (Block*)malloc(sizeof(Block));
+            new_block->process_id = process_id;
+            new_block->num_units = num_units;
+            new_block->next = current;
+
+            if (prev == NULL) {
+                memory = new_block;
+            } else {
+                prev->next = new_block;
+            }
+
+            current->num_units -= num_units;
+            nodes_traversed++;
+            return nodes_traversed;
+        }
+
+        prev = current;
+        current = current->next;
+        nodes_traversed++;
+    }
+
+    return -1;
 }
+
 
 int deallocate_mem(int process_id) {
-    // TODO: Implement the deallocate_mem function
-    // Traverse the linked list of allocated blocks
-    // Find the block with the given process ID
-    // Deallocate the memory and adjust the linked list
-    // Return 1 if successful, otherwise return -1
+    Block* current = memory;
+    Block* prev = NULL;
+
+    while (current != NULL) {
+        if (current->process_id == process_id) {
+            if (prev == NULL) {
+                memory = current->next;
+            } else {
+                prev->next = current->next;
+            }
+
+            free(current);
+            return 1;
+        }
+
+        prev = current;
+        current = current->next;
+    }
+
+    return -1;
 }
 
+
 int fragment_count() {
-    // TODO: Implement the fragment_count function
-    // Traverse the linked list of free blocks
-    // Count the number of holes (fragments of sizes 1 or 2 units)
-    // Return the count
+    Block* current = memory;
+    int count = 0;
+
+    while (current != NULL) {
+        if (current->num_units <= 2) {
+            count++;
+        }
+
+        current = current->next;
+    }
+
+    return count;
 }
 
 void print_statistics() {
