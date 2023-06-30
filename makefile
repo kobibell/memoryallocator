@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra
 all: memory_simulation
 
 memory_simulation: main.o memory.o
-	$(CC) $(CFLAGS) -o memory_simulation main.o memory.o
+	$(CC) $(CFLAGS) -o mot main.o memory.o
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c
