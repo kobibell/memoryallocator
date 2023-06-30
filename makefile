@@ -1,3 +1,8 @@
+###########################################################
+# Makefile for CS480 Assignment #3
+# Kobi Bell and Mark Duraid
+###########################################################
+
 CC = gcc
 CFLAGS = -Wall -Wextra
 
@@ -14,3 +19,5 @@ memory.o: memory.c
 
 clean:
 	rm -f memory_simulation *.o
+
+#######################[ EOF: Makefile ]###################

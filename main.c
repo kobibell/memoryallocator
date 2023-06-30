@@ -1,3 +1,12 @@
+/*
+
+Name of file: main.c
+Team: Kobi Bell and Mark Duraid
+Class: CS 480
+Assignment #3
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "memory.h"

@@ -1,3 +1,12 @@
+/*
+
+Name of file: memory.c
+Team: Kobi Bell and Mark Duraid
+Class: CS 480
+Assignment #3
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "memory.h"
@@ -170,20 +179,23 @@ int fragment_count() {
 
 void print_statistics() {
     printf("End of First Fit Allocation\n");
-    if (total_allocations_first_fit == 0) {
-        printf("No successful allocations for First Fit Allocation.\n");
+    int total_requests_first_fit = total_allocations_first_fit + total_denied_allocations_first_fit;
+    if (total_requests_first_fit == 0) {
+        printf("No allocations for First Fit Allocation.\n");
     } else {
-        printf("Average External Fragments Each Request: %.6f\n", (double)fragment_count() / total_allocations_first_fit);
-        printf("Average Nodes Transversed Each Allocation: %.6f\n", (double)total_nodes_traversed_first_fit / total_allocations_first_fit);
-        printf("Percentage Allocation Requests Denied Overall: %.6f%%\n", (double)total_denied_allocations_first_fit / total_allocations_first_fit * 100);
+        printf("Average External Fragments Each Request: %.6f\n", (double)fragment_count() / total_requests_first_fit);
+        printf("Average Nodes Transversed Each Allocation: %.6f\n", (double)total_nodes_traversed_first_fit / total_requests_first_fit);
+        printf("Percentage Allocation Requests Denied Overall: %.6f%%\n", (double)total_denied_allocations_first_fit / total_requests_first_fit * 100);
     }
 
     printf("End of Best Fit Allocation\n");
-    if (total_allocations_best_fit == 0) {
-        printf("No successful allocations for Best Fit Allocation.\n");
+    int total_requests_best_fit = total_allocations_best_fit + total_denied_allocations_best_fit;
+    if (total_requests_best_fit == 0) {
+        printf("No allocations for Best Fit Allocation.\n");
     } else {
-        printf("Average External Fragments Each Request: %.6f\n", (double)fragment_count() / total_allocations_best_fit);
-        printf("Average Nodes Transversed Each Allocation: %.6f\n", (double)total_nodes_traversed_best_fit / total_allocations_best_fit);
-        printf("Percentage Allocation Requests Denied Overall: %.6f%%\n", (double)total_denied_allocations_best_fit / total_allocations_best_fit * 100);
+        printf("Average External Fragments Each Request: %.6f\n", (double)fragment_count() / total_requests_best_fit);
+        printf("Average Nodes Transversed Each Allocation: %.6f\n", (double)total_nodes_traversed_best_fit / total_requests_best_fit);
+        printf("Percentage Allocation Requests Denied Overall: %.6f%%\n", (double)total_denied_allocations_best_fit / total_requests_best_fit * 100);
     }
 }
+

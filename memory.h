@@ -1,3 +1,12 @@
+/*
+
+Name of file: memory.h
+Team: Kobi Bell and Mark Duraid
+Class: CS 480
+Assignment #3
+
+*/
+
 #ifndef MEMORY_H
 #define MEMORY_H
 
