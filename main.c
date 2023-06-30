@@ -8,11 +8,12 @@ int main() {
     int total_nodes_traversed = 0;
     int total_allocation_requests = 0;
     int total_denied_requests = 0;
+    int i; // Declare 'i' here
 
     init_memory(1000);
 
     // Generate 10,000 requests for first fit
-    for (int i = 0; i < 10000; i++) {
+    for (i = 0; i < 10000; i++) {
         // Generate a random process ID and number of units
         int process_id = rand() % 1000 + 1;
         int num_units = rand() % (MAX_UNITS - MIN_UNITS + 1) + MIN_UNITS;
@@ -37,7 +38,7 @@ int main() {
     init_memory(1000);
 
     // Generate 10,000 requests for best fit
-    for (int i = 0; i < 10000; i++) {
+    for (i = 0; i < 10000; i++) {
         // Generate a random process ID and number of units
         int process_id = rand() % 1000 + 1;
         int num_units = rand() % (MAX_UNITS - MIN_UNITS + 1) + MIN_UNITS;
